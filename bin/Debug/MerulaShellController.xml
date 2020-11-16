@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MerulaShellController</name>
+    </assembly>
+    <members>
+        <member name="T:MerulaShellController.PowerOptions">
+            <summary>
+            Powerdown options for the computer
+            shutdown, hibernate and restart
+            </summary>
+        </member>
+        <member name="M:MerulaShellController.ManageWindows.ManageWindows.GetWindows">
+            <summary>
+            Gets a list of active windows 
+            </summary>
+            <returns>A list of window objects</returns>
+        </member>
+        <member name="E:MerulaShellController.ManageWindows.ManageWindows.WindowListChanged">
+            <summary>
+            This event will be triggerd when the number of open windows has changed
+            </summary>
+        </member>
+        <member name="M:MerulaShellController.ManageWindows.GetWindows.GetActiveWindows">
+            <summary>
+            Gets a list of active windows 
+            </summary>
+            <returns>A list of window objects</returns>
+        </member>
+    </members>
+</doc>

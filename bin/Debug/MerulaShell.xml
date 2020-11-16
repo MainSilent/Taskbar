@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MerulaShell</name>
+    </assembly>
+    <members>
+        <member name="T:MerulaShell.workspace.WorkArea">
+            <summary>
+            This class can modify the windows workspace, so programs wont overlap your taskbar
+            </summary>
+        </member>
+        <member name="M:MerulaShell.workspace.WorkArea.MakeNewDesktopArea(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sets the windows workspace
+            </summary>
+            <param name="offsetLeft"></param>
+            <param name="offsetTop"></param>
+            <param name="offsetRight"></param>
+            <param name="offsetBottom"></param>
+        </member>
+        <member name="T:MerulaShell.windows.Window">
+            <summary>
+            Window object
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.#ctor(System.IntPtr)">
+            <summary>
+            Create a new window
+            </summary>
+            <param name="handler">window handler(unieke key)</param>
+        </member>
+        <member name="M:MerulaShell.windows.Window.CheckTitle">
+            <summary>
+            Checks if the title is changed of a window
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.GetTitle">
+            <summary>
+            Gets the title of the window
+            and sets the title property
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.Destroy">
+            <summary>
+            Unloads all the resources used by this object
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.MaximizeMinimize">
+            <summary>
+            This funtion does the default taskbar action of a window
+            Like minimize / maximize
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.HideWindow">
+            <summary>
+            Hide the window
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.SetToForeground">
+            <summary>
+            Sets the window to the foreground
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.SetTopMost">
+            <summary>
+            Sets the window at no top most position
+            -Topmost
+            -Normal windows
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.Window.Close">
+            <summary>
+            Closes the window
+            </summary>
+        </member>
+        <member name="E:MerulaShell.windows.Window.TitleChanged">
+            <summary>
+            A title of a window often changes 
+            this event will trigger when that happens
+            </summary>
+        </member>
+        <member name="P:MerulaShell.windows.Window.Thumbnail">
+            <summary>
+            Get the live tumbnail of a window
+            (doesn't work on windows xp)
+            </summary>
+        </member>
+        <member name="P:MerulaShell.windows.Window.Title">
+            <summary>
+            Title of the window
+            </summary>
+        </member>
+        <member name="P:MerulaShell.windows.Window.ProgramIcon">
+            <summary>
+            Icon of the program
+            </summary>
+        </member>
+        <member name="M:MerulaShell.windows.WindowCenter.CheckWindows">
+            <summary>
+            When the list of windows are changed this method will
+            fire a event that the windows are changed 
+            </summary>
+        </member>
+        <member name="M:MerulaShell.MerulaShell.GetActiveWindows">
+            <summary>
+            Gets a list of active windows 
+            </summary>
+            <returns>A list of window objects</returns>
+        </member>
+        <member name="M:MerulaShell.MerulaShell.HideWindow(System.String)">
+            <summary>
+            Hide a window 
+            </summary>
+            <param name="name">name of the window</param>
+        </member>
+        <member name="M:MerulaShell.windows.Thumbnail.GetThumb(System.IntPtr,MerulaShell.windows.Thumbnail.Rect,System.Int32,System.Int32)">
+            <summary>
+            Creates a live thumb
+            </summary>
+            <param name="userHandle">the handle of your window</param>
+            <param name="area">a rect of a area in the window</param>
+            <param name="widthArea">Width of the area</param>
+            <param name="heightArea">Height of the area</param>
+        </member>
+        <member name="M:MerulaShell.windows.Thumbnail.Unregister">
+            <summary>
+            Deletes the thumb
+            </summary>
+        </member>
+    </members>
+</doc>
