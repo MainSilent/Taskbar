@@ -63,7 +63,7 @@ namespace Taskbar
                 // convert ProgramIcon to base64
                 dynamic icon = BitmapFromSource(window.ProgramIcon);
                 MemoryStream ms = new MemoryStream();
-                icon.Save(ms, ImageFormat.Jpeg);
+                icon.Save(ms, ImageFormat.Png);
                 byte[] byteImage = ms.ToArray();
                 icon = Convert.ToBase64String(byteImage);
                 
