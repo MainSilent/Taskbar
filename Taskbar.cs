@@ -61,7 +61,9 @@ namespace Taskbar
         {
             IntPtr hWnd = new IntPtr(handle);
 
-            return "ScreenCapture.ImgtoBase64(img)";
+            Bitmap img = ScreenCapture.CaptureApplication(hWnd);
+
+            return ScreenCapture.ImgtoBase64(img);
         }
 
         // Close the program
@@ -78,7 +80,6 @@ namespace Taskbar
             {
                 Process tempProc = Process.GetProcessById(processid);
                 tempProc.CloseMainWindow();
-                tempProc.WaitForExit();
             }
             catch (Exception e)
             {
