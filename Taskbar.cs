@@ -18,6 +18,9 @@ namespace Taskbar
 
         // open the window
         [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
@@ -40,7 +43,7 @@ namespace Taskbar
             }
             else
             {
-                if(IsIconic(hWnd))
+                if (GetForegroundWindow() == hWnd)
                     ShowWindow(hWnd, SW_MINIMIZE);
                 else
                     SetForegroundWindow(hWnd);
