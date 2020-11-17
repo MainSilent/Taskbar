@@ -45,10 +45,7 @@ namespace Taskbar
                 Window win = new Window();
                 // convert ProgramIcon to base64
                 dynamic icon = BitmapFromSource(window.ProgramIcon);
-                MemoryStream ms = new MemoryStream();
-                icon.Save(ms, ImageFormat.Png);
-                byte[] byteImage = ms.ToArray();
-                icon = Convert.ToBase64String(byteImage);
+                icon = ScreenCapture.ImgtoBase64(icon);
                 
                 win.handle = window.Handler.ToInt32();
                 win.title = Task.checkTitle(window.Title, window.Handler);

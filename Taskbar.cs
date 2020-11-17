@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -50,6 +53,18 @@ namespace Taskbar
             }
 
             return true;
+        }
+
+
+        // Get screenshot of the window
+        public async Task<object> screenshot(int handle)
+        {
+            IntPtr hWnd = new IntPtr(handle);
+
+            ScreenCapture sc = new ScreenCapture();
+            Image img = sc.CaptureScreen(hWnd);
+
+            return ScreenCapture.ImgtoBase64(img);
         }
     }
 }
