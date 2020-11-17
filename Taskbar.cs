@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -19,7 +20,7 @@ namespace Taskbar
             return null;
         }
 
-        // open the window
+        // toggle the window
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
@@ -55,16 +56,36 @@ namespace Taskbar
             return true;
         }
 
-
         // Get screenshot of the window
         public async Task<object> screenshot(int handle)
         {
             IntPtr hWnd = new IntPtr(handle);
 
-            ScreenCapture sc = new ScreenCapture();
-            Image img = sc.CaptureScreen(hWnd);
+            return "ScreenCapture.ImgtoBase64(img)";
+        }
 
-            return ScreenCapture.ImgtoBase64(img);
+        // Close the program
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int processId);
+
+        public async Task<object> close(int handle)
+        {
+            IntPtr hWnd = new IntPtr(handle);
+
+            int processid = 0;
+            GetWindowThreadProcessId((IntPtr)hWnd, out processid);
+            try
+            {
+                Process tempProc = Process.GetProcessById(processid);
+                tempProc.CloseMainWindow();
+                tempProc.WaitForExit();
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
+
+            return null;
         }
     }
 }
