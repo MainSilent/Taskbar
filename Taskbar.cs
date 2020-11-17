@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Taskbar
@@ -20,7 +21,35 @@ namespace Taskbar
             return null;
         }
 
-        // toggle the window
+        // an event for windows focus changes
+        delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+
+        private const uint WINEVENT_OUTOFCONTEXT = 0;
+        private const uint EVENT_SYSTEM_FOREGROUND = 3;
+
+        public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
+        {
+            IntPtr handle = GetForegroundWindow();
+            ((Func<object, Task<object>>)callback)(handle);
+        }
+        public async Task<object> focus(dynamic input)
+        {
+            // get the fisrt focused window
+            IntPtr handle = GetForegroundWindow();
+            ((Func<object, Task<object>>)input)(handle);
+
+            // event listener for focus changes
+            callback = input;
+            WinEventDelegate dele = new WinEventDelegate(WinEventProc);
+            SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, dele, 0, 0, WINEVENT_OUTOFCONTEXT);
+
+            return null;
+        }
+
+        // toggle the window 
         [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 

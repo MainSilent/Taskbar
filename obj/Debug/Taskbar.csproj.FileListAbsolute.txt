@@ -4,9 +4,6 @@ E:\Projects\Taskbar\obj\Debug\Taskbar.csprojAssemblyReference.cache
 E:\Projects\Taskbar\obj\Debug\Taskbar.csproj.CoreCompileInputs.cache
 E:\Projects\Taskbar\obj\Debug\Taskbar.dll
 E:\Projects\Taskbar\obj\Debug\Taskbar.pdb
-E:\Projects\Taskbar\bin\Debug\MerulaShell.dll
-E:\Projects\Taskbar\bin\Debug\MerulaShellController.dll
-E:\Projects\Taskbar\bin\Debug\MerulaShellProgramManager.dll
 E:\Projects\Taskbar\bin\Debug\MerulaShell.xml
 E:\Projects\Taskbar\bin\Debug\MerulaShellController.xml
 E:\Projects\Taskbar\obj\Debug\Taskbar.csproj.CopyComplete
