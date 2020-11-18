@@ -37,14 +37,21 @@ namespace Taskbar
         }
         public async Task<object> focus(dynamic input)
         {
-            // get the fisrt focused window
-            IntPtr handle = GetForegroundWindow();
-            ((Func<object, Task<object>>)input)(handle);
+            try
+            {
+                // get the fisrt focused window
+                IntPtr handle = GetForegroundWindow();
+                ((Func<object, Task<object>>)input)(handle);
 
-            // event listener for focus changes
-            callback = input;
-            WinEventDelegate dele = new WinEventDelegate(WinEventProc);
-            SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, dele, 0, 0, WINEVENT_OUTOFCONTEXT);
+                // event listener for focus changes
+                callback = input;
+                WinEventDelegate dele = new WinEventDelegate(WinEventProc);
+                SetWinEventHook(EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, dele, 0, 0, WINEVENT_OUTOFCONTEXT);
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
 
             return null;
         }
@@ -90,9 +97,15 @@ namespace Taskbar
         {
             IntPtr hWnd = new IntPtr(handle);
 
-            Bitmap img = ScreenCapture.CaptureApplication(hWnd);
-
-            return ScreenCapture.ImgtoBase64(img);
+            try
+            {
+                Bitmap img = ScreenCapture.CaptureApplication(hWnd);
+                return ScreenCapture.ImgtoBase64(img);
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
         }
 
         // Close the program
