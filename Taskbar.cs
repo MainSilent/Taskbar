@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Taskbar
@@ -32,8 +29,15 @@ namespace Taskbar
 
         public void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
-            IntPtr handle = GetForegroundWindow();
-            ((Func<object, Task<object>>)callback)(handle);
+            try
+            {
+                IntPtr handle = GetForegroundWindow();
+                ((Func<object, Task<object>>)callback)(handle);
+            }
+            catch (Exception e)
+            {
+                ((Func<object, Task<object>>)callback)("Error: " + e.Message);
+            }
         }
         public async Task<object> focus(dynamic input)
         {
@@ -50,7 +54,7 @@ namespace Taskbar
             }
             catch (Exception e)
             {
-                return "Error: " + e.Message;
+                ((Func<object, Task<object>>)callback)("Error: " + e.Message);
             }
 
             return null;

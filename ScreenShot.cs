@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows;
-using static MerulaShell.workspace.WorkArea;
 
 namespace Taskbar
 {
@@ -52,10 +48,17 @@ namespace Taskbar
         // Convert image to base64
         public static string ImgtoBase64(dynamic img)
         {
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, ImageFormat.Png);
-            byte[] byteImage = ms.ToArray();
-            return Convert.ToBase64String(byteImage);
+            try
+            {
+                MemoryStream ms = new MemoryStream();
+                img.Save(ms, ImageFormat.Png);
+                byte[] byteImage = ms.ToArray();
+                return Convert.ToBase64String(byteImage);
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
         }
     }
 }
