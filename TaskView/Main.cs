@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Threading.Tasks;
 using VirtualDesktop;
+using System.Runtime.InteropServices;
 
 namespace TaskView
 {
@@ -62,6 +64,7 @@ namespace TaskView
             }
         }
 
+        // move window to current desktop
         public async Task<object> moveCurrent(int handle)
         {
             try
@@ -83,6 +86,24 @@ namespace TaskView
             try
             {
                 Desktop.FromIndex(index).Remove();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
+        }
+
+        // toggle windows same as pressing 'winkey + d'
+        public async Task<object> toggle(int input)
+        {
+            try
+            {
+                Taskbar.KeyboardSend.KeyDown(Keys.LWin);
+                Taskbar.KeyboardSend.KeyDown(Keys.D);
+                Taskbar.KeyboardSend.KeyUp(Keys.LWin);
+                Taskbar.KeyboardSend.KeyUp(Keys.D);
+
                 return true;
             }
             catch (Exception e)
