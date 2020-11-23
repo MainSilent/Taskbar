@@ -1,0 +1,7 @@
+E:\Projects\Taskbar\obj\Release\Taskbar.csprojAssemblyReference.cache
+E:\Projects\Taskbar\obj\Release\Taskbar.csproj.CoreCompileInputs.cache
+E:\Projects\Taskbar\bin\Release\Taskbar.dll
+E:\Projects\Taskbar\bin\Release\Taskbar.pdb
+E:\Projects\Taskbar\obj\Release\Taskbar.csproj.CopyComplete
+E:\Projects\Taskbar\obj\Release\Taskbar.dll
+E:\Projects\Taskbar\obj\Release\Taskbar.pdb

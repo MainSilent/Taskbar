@@ -12,18 +12,32 @@ namespace Taskbar
 
         public Task(Window window)
         {
-            this.window = window;
-            window.TitleChanged += WindowTitleChanged; //when the title of the window changes 
+            try
+            {
+                this.window = window;
+                window.TitleChanged += WindowTitleChanged; //when the title of the window changes 
+            }
+            catch (Exception e)
+            {
+                ((Func<object, Task<object>>)Main.callback)("Error: " + e.Message);
+            }
         }
 
         void WindowTitleChanged(object sender, EventArgs e)
         {
-            List<dynamic> data = new List<dynamic>();
-            data.Add("update_title");
-            data.Add(window.Handler);
-            data.Add(checkTitle(window.Title, window.Handler));
+            try
+            {
+                List<dynamic> data = new List<dynamic>();
+                data.Add("update_title");
+                data.Add(window.Handler);
+                data.Add(checkTitle(window.Title, window.Handler));
 
-            ((Func<object, Task<object>>)Main.callback)(data);
+                ((Func<object, Task<object>>)Main.callback)(data);
+            }
+            catch (Exception e2)
+            {
+                ((Func<object, Task<object>>)Main.callback)("Error: " + e2.Message);
+            }
         }
 
         /* The reason we need this method is because utf8 charchters are replaced by '?',
@@ -33,20 +47,27 @@ namespace Taskbar
         */
         public static string checkTitle(string title, IntPtr handler)
         {
-            if(title.Contains("?"))
+            try
             {
-                Process[] processes = Process.GetProcesses();
-
-                foreach (Process proc in processes)
+                if (title.Contains("?"))
                 {
-                    if (proc.MainWindowHandle == handler)
+                    Process[] processes = Process.GetProcesses();
+
+                    foreach (Process proc in processes)
                     {
-                        return proc.MainWindowTitle;
+                        if (proc.MainWindowHandle == handler)
+                        {
+                            return proc.MainWindowTitle;
+                        }
                     }
                 }
-            }
 
-            return title;
+                return title;
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
         }
     }
 }

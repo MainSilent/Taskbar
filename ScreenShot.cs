@@ -23,26 +23,33 @@ namespace Taskbar
 
         public static Bitmap CaptureApplication(IntPtr hWnd)
         {
-            Rect rect = new Rect();
-            IntPtr error = GetWindowRect(hWnd, ref rect);
-
-            // sometimes it gives error.
-            while (error == (IntPtr)0)
+            try
             {
-                error = GetWindowRect(hWnd, ref rect);
+                Rect rect = new Rect();
+                IntPtr error = GetWindowRect(hWnd, ref rect);
+
+                // sometimes it gives error.
+                while (error == (IntPtr)0)
+                {
+                    error = GetWindowRect(hWnd, ref rect);
+                }
+
+                int width = rect.right - rect.left;
+                int height = rect.bottom - rect.top;
+
+                Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+                Graphics.FromImage(bmp).CopyFromScreen(rect.left,
+                                                       rect.top,
+                                                       0,
+                                                       0,
+                                                       new System.Drawing.Size(width, height),
+                                                       CopyPixelOperation.SourceCopy);
+                return bmp;
             }
-
-            int width = rect.right - rect.left;
-            int height = rect.bottom - rect.top;
-
-            Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
-            Graphics.FromImage(bmp).CopyFromScreen(rect.left,
-                                                   rect.top,
-                                                   0,
-                                                   0,
-                                                   new System.Drawing.Size(width, height),
-                                                   CopyPixelOperation.SourceCopy);
-            return bmp;
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         // Convert image to base64

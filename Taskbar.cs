@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
@@ -12,10 +13,17 @@ namespace Taskbar
         // Get all opened programs
         public async Task<object> init(dynamic input)
         {
-            callback = input;
-            new MainWindow();
+            try
+            {
+                callback = input;
+                new MainWindow();
 
-            return null;
+                return null;
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
         }
 
         // an event for windows focus changes
@@ -79,30 +87,38 @@ namespace Taskbar
 
         public async Task<object> toggleWindow(int handle)
         {
-            IntPtr hWnd = new IntPtr(handle);
+            try
+            {
+                IntPtr hWnd = new IntPtr(handle);
 
-            if (IsIconic(hWnd))
-            {
-                ShowWindow(hWnd, SW_RESTORE);
-            }
-            else
-            {
-                if (GetForegroundWindow() == hWnd)
-                    ShowWindow(hWnd, SW_MINIMIZE);
+                if (IsIconic(hWnd))
+                {
+                    ShowWindow(hWnd, SW_RESTORE);
+                }
                 else
-                    SetForegroundWindow(hWnd);
+                {
+                    if (GetForegroundWindow() == hWnd)
+                        ShowWindow(hWnd, SW_MINIMIZE);
+                    else
+                        SetForegroundWindow(hWnd);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                ((Func<object, Task<object>>)Main.callback)("Error: " + e.Message);
             }
 
-            return true;
+            return null;
         }
 
         // Get screenshot of the window
         public async Task<object> screenshot(int handle)
         {
-            IntPtr hWnd = new IntPtr(handle);
-
             try
             {
+                IntPtr hWnd = new IntPtr(handle);
                 Bitmap img = ScreenCapture.CaptureApplication(hWnd);
                 return ScreenCapture.ImgtoBase64(img);
             }
@@ -118,14 +134,35 @@ namespace Taskbar
 
         public async Task<object> close(int handle)
         {
-            IntPtr hWnd = new IntPtr(handle);
-
-            int processid = 0;
-            GetWindowThreadProcessId((IntPtr)hWnd, out processid);
             try
             {
+                IntPtr hWnd = new IntPtr(handle);
+
+                int processid = 0;
+                GetWindowThreadProcessId((IntPtr)hWnd, out processid);
+
                 Process tempProc = Process.GetProcessById(processid);
                 tempProc.CloseMainWindow();
+                return MainWindow.check(hWnd);
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
+
+        }
+
+        public async Task<object> kill(int handle)
+        {
+            try
+            {
+                IntPtr hWnd = new IntPtr(handle);
+
+                int processid = 0;
+                GetWindowThreadProcessId((IntPtr)hWnd, out processid);
+
+                Process tempProc = Process.GetProcessById(processid);
+                tempProc.Kill();
             }
             catch (Exception e)
             {
