@@ -21,6 +21,20 @@ namespace TaskView
             }
         }
 
+        // create new dekstop
+        public async Task<object> create(dynamic input)
+        {
+            try
+            {
+                Desktop.Create();
+                return true;
+            }
+            catch (Exception e)
+            {
+                return "Error: " + e.Message;
+            }
+        }
+
         // get current desktop
         public async Task<object> current(dynamic input)
         {
@@ -95,14 +109,26 @@ namespace TaskView
         }
 
         // toggle windows same as pressing 'winkey + d'
-        public async Task<object> toggle(int input)
+        public async Task<object> toggle(bool mode)
         {
             try
             {
-                Taskbar.KeyboardSend.KeyDown(Keys.LWin);
-                Taskbar.KeyboardSend.KeyDown(Keys.D);
-                Taskbar.KeyboardSend.KeyUp(Keys.LWin);
-                Taskbar.KeyboardSend.KeyUp(Keys.D);
+                if(mode)
+                {
+                    Taskbar.KeyboardSend.KeyDown(Keys.LWin);
+                    Taskbar.KeyboardSend.KeyDown(Keys.M);
+                    Taskbar.KeyboardSend.KeyUp(Keys.LWin);
+                    Taskbar.KeyboardSend.KeyUp(Keys.M);
+                }
+                else
+                {
+                    Taskbar.KeyboardSend.KeyDown(Keys.LWin);
+                    Taskbar.KeyboardSend.KeyDown(Keys.LShiftKey);
+                    Taskbar.KeyboardSend.KeyDown(Keys.M);
+                    Taskbar.KeyboardSend.KeyUp(Keys.LWin);
+                    Taskbar.KeyboardSend.KeyUp(Keys.LShiftKey);
+                    Taskbar.KeyboardSend.KeyUp(Keys.M);
+                }
 
                 return true;
             }
